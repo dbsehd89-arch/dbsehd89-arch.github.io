@@ -32,6 +32,13 @@
         .available { background: #d4edda; color: #155724; }
         .unavailable { background: #f8d7da; color: #721c24; }
         .reason { font-size: 12px; color: #666; }
+        .evidence-trigger { border-bottom: 1px dashed #0066cc; cursor: pointer; position: relative; color: #0b5ed7; }
+        .evidence-tooltip { position: absolute; background: #222; color: #f1f1f1; padding: 14px 16px; border-radius: 6px; font-size: 12px; z-index: 1000; bottom: 130%; left: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.3); display: none; min-width: 340px; max-width: 460px; white-space: normal; line-height: 1.7; max-height: 360px; overflow-y: auto; }
+        .evidence-tooltip.show { display: block; }
+        .evidence-tooltip.pinned { display: block !important; }
+        .evidence-source { color: #7fc8ff; font-weight: 600; margin-top: 8px; margin-bottom: 2px; }
+        .evidence-source:first-child { margin-top: 0; }
+        .evidence-text { margin: 0 0 6px; }
         .tooltip { position: absolute; background: #333; color: white; padding: 14px 16px; border-radius: 6px; font-size: 12px; z-index: 1000; bottom: 130%; left: 50%; transform: translateX(-50%); box-shadow: 0 4px 12px rgba(0,0,0,0.3); display: none; min-width: 300px; white-space: normal; line-height: 1.8; max-height: 400px; overflow-y: auto; }
         .tooltip.show { display: block; }
         .tooltip.pinned { display: block !important; }
@@ -102,7 +109,7 @@
                         <td class="score-col">2점</td>
                         <td><span class="status-chip available" data-materials="• '26년 안전보건 예산계획 (26년EHS비용예산).xlsx&#10;• 25년 안전보건 예산관리표25년EHS비용실적.xlsx&#10;• 26년 안전보건 예산실적 관리표_Safety Budget(26년1-6월실적).xlsx&#10;• 26_평호KPI(환경안전).xlsx&#10;• 26년7월안전환경KPI.xlsx&#10;• 연도안전투입계획.pdf">✓ 확보<span class="tooltip"></span></span></td>
                         <td class="eval-col">1/2</td>
-                        <td class="reason">예산 계획 보고 누락</td>
+                        <td class="reason"><span class="evidence-trigger" data-evidence="[출처: '26년 안전보건 예산실적 관리표.xlsx]&#10;안전보건관리비 25년실적 518.4백만원 → 26년계획 638.5백만원. SSPH 시트는 1~6월 실적(318.7백만원)까지만 기재되어 있고 타 사업장 시트는 전부 공란&#10;[출처: 연도안전투입계획.pdf]&#10;전체 3페이지가 이미지 전용으로 텍스트 추출이 불가하여 보고서 실제 내용 확인 불가">예산 계획 보고 누락</span></td>
                     </tr>
                     <tr>
                         <td class="item-num">2</td>
@@ -110,7 +117,7 @@
                         <td class="score-col">4점</td>
                         <td><span class="status-chip available" data-materials="• 七月안전위원회보고.pdf">✓ 확보<span class="tooltip"></span></span></td>
                         <td class="eval-col">3/4</td>
-                        <td class="reason">반기 기준 미달</td>
+                        <td class="reason"><span class="evidence-trigger" data-evidence="[출처: 七月안전위원회보고.pdf]&#10;전체 11페이지가 이미지 전용으로 텍스트 추출 불가. 제출 자료가 「7월 안전위원회 보고」 1건뿐으로, 반기(6개월) 단위의 여러 회차 점검·소통 자료는 확인되지 않음">반기 기준 미달</span></td>
                     </tr>
                     <tr>
                         <td class="item-num">3</td>
@@ -126,7 +133,7 @@
                         <td class="score-col">2점</td>
                         <td><span class="status-chip available" data-materials="• 국가EHS기술기준목록.xlsx&#10;• 안전환경법률법규및규범적 문서목록.xlsx">✓ 확보<span class="tooltip"></span></span></td>
                         <td class="eval-col">1/2</td>
-                        <td class="reason">목록만 있고 적용 증거 부족</td>
+                        <td class="reason"><span class="evidence-trigger" data-evidence="[출처: 안전환경법률법규및규범적문서목록.xlsx]&#10;법률명·행정규범문서·최신판 시행시간만 나열(총 782행), 사업장 내 실제 적용·준수 여부를 나타내는 열이 없음&#10;[출처: 국가EHS기술기준목록.xlsx]&#10;예: 「보안 디자인 통합 GB50187-2012 산업기업 일반 디자인 명세 2012년8월1일」 등 598행, 마찬가지로 적용 증거 없음">목록만 있고 적용 증거 부족</span></td>
                     </tr>
                     <tr>
                         <td class="item-num">5</td>
@@ -142,7 +149,7 @@
                         <td class="score-col">4점</td>
                         <td><span class="status-chip available" data-materials="• HSE 기준 - 23쪽、사고의보고、조사및처리.docx&#10;• 안전생산규정제도편집 - 95쪽、사고관리제도.pdf">✓ 확보<span class="tooltip"></span></span></td>
                         <td class="eval-col">2/4</td>
-                        <td class="reason">제도는 있으나 실행 증거 부족</td>
+                        <td class="reason"><span class="evidence-trigger" data-evidence="[출처: HSE 기준 - 23쪽]&#10;「초기 보고서: 1시간 내 이메일 또는 즉시 통신수단으로 보고, 공식 보고서: 24시간 내」 절차만 규정&#10;[출처: 안전생산규정제도편집 - 95쪽]&#10;「사고 후 즉각 조사그룹을 형성해야 합니다」 등 제도·양식만 규정되어 있고, 실제 발생 사고에 대한 실행 기록(날짜·서명·조사결과)은 없음">제도는 있으나 실행 증거 부족</span></td>
                     </tr>
                     <tr>
                         <td class="item-num">7</td>
@@ -150,7 +157,7 @@
                         <td class="score-col">4점</td>
                         <td><span class="status-chip available" data-materials="• 2026 환경안전G연도교육계획및실적.xls&#10;• 20260730 안전위험식별교육기록.xlsx">✓ 확보<span class="tooltip"></span></span></td>
                         <td class="eval-col">3/4</td>
-                        <td class="reason">교육 실적은 있으나 효과성 평가 부족</td>
+                        <td class="reason"><span class="evidence-trigger" data-evidence="[출처: 20260730 안전위험식별교육기록.xlsx]&#10;교육일(2026.7.29), 강사, 참석 98명, DG/SL공정별 위험포인트 등 실적은 구체적으로 기재됨. 그러나 「효과성 평가」 체크박스 4개(효과적/일반적효과/덜효과적/기타)가 전부 미체크(□), 평가자 서명란도 공란">교육 실적은 있으나 효과성 평가 부족</span></td>
                     </tr>
                     <tr>
                         <td class="item-num">8</td>
@@ -158,7 +165,7 @@
                         <td class="score-col">4점</td>
                         <td><span class="status-chip available" data-materials="• 안전그룹조직그림및인원자격증서.xls">✓ 확보<span class="tooltip"></span></span></td>
                         <td class="eval-col">4/4</td>
-                        <td class="reason">적절하게 구성됨</td>
+                        <td class="reason"><span class="evidence-trigger" data-evidence="[출처: 안전그룹조직그림및인원자격증서.xls]&#10;「특수 작업 분류」 시트에 왕징(안전엔지니어/위험화학물질관리자) 등 6명의 자격증 보유 현황이 발급일·다음 리뷰일까지 표로 정리됨. 「회사연혁」 시트에는 환경관리·안전관리·재난관리(소방)·직업건강·특수설비·시설안내 6개 기능으로 조직도가 구성됨">적절하게 구성됨</span></td>
                     </tr>
                     <tr>
                         <td class="item-num">9</td>
@@ -166,7 +173,7 @@
                         <td class="score-col">4점</td>
                         <td><span class="status-chip available" data-materials="• SSPH안전위험식별및분급관리목록(2025).pdf&#10;• SSPH안전위험식별및분급관리목록(2026).pdf&#10;• 안전위험식별、分级及管理总体结论.pdf&#10;• 위험원식별、위험평가控制制度.docx">✓ 확보<span class="tooltip"></span></span></td>
                         <td class="eval-col">2/4</td>
-                        <td class="reason">식별은 하나 지속적 보완 부족</td>
+                        <td class="reason"><span class="evidence-trigger" data-evidence="[출처: 위험원식별、위험평가제도.docx]&#10;외부 위험성평가는 2년 주기, 내부 평가는 1년 주기로 규정. 그러나 「위험 업데이트」는 법령 변경·공정 변경·사고 발생 등 트리거 발생 시에만 갱신하도록 되어 있어 상시·정기 보완이 아닌 사건대응형 방식&#10;[출처: SSPH안전위험식별및분급관리목록(2025/2026).pdf]&#10;연도별 목록은 존재(2025년 15p, 2026년 17p)하나 전 페이지 이미지 전용으로 텍스트 추출이 불가하여 실제 갱신 내용 확인 불가">식별은 하나 지속적 보완 부족</span></td>
                     </tr>
                     <tr>
                         <td class="item-num">10</td>
@@ -174,7 +181,7 @@
                         <td class="score-col">4점</td>
                         <td><span class="status-chip available" data-materials="• 높은처작업기록(예).pdf&#10;• 안전생산규정제도편집 - 55쪽、위험성작업안전관리제도.pdf">✓ 확보<span class="tooltip"></span></span></td>
                         <td class="eval-col">2/4</td>
-                        <td class="reason">제도는 있으나 실제 적용 미흡</td>
+                        <td class="reason"><span class="evidence-trigger" data-evidence="[출처: 안전생산규정제도편집 - 55쪽]&#10;화기·밀폐공간·고소작업·전기배선·굴착·양중 등 7종 위험작업을 정의하고, 사전승인서·작업 전후 확인표·감독자 역할까지 상세 규정. 「관련 운영 허가는 엄격히 강제될 것」&#10;[출처: 높은처작업기록(예).pdf]&#10;2페이지 전부 이미지 전용으로 텍스트 추출 불가하여 실제 현장 기록 내용 확인 불가. 제도(상세)와 실제 기록(예시 1건, 내용 미확인) 간 격차">제도는 있으나 실제 적용 미흡</span></td>
                     </tr>
                     <tr>
                         <td class="item-num">11</td>
@@ -198,7 +205,7 @@
                         <td class="score-col">4점</td>
                         <td><span class="status-chip available" data-materials="• 사내외부업체안전관리지침.pdf">✓ 확보<span class="tooltip"></span></span></td>
                         <td class="eval-col">3/4</td>
-                        <td class="reason">지침은 있으나 실행 점검 미흡</td>
+                        <td class="reason"><span class="evidence-trigger" data-evidence="[출처: 사내외부업체안전관리지침.pdf]&#10;지침(36p)은 3단계 확인항목·근거법령을 상세 규정. 그러나 실제 사고사례 4건 모두 협력사 계약관리·현장감독 미실시형: 「관련기관 안전관리 통합·조정 부족으로 제한된 공간 운영 접근 허용, 효과적 보안 순찰 미실시」(2025.10.17 질식사고), 「현장 감독의 엄격한 체계 없음」(폭발사고), 「건설 현장이 적절히 관리되지 않음」(추락사망)">지침은 있으나 실행 점검 미흡</span></td>
                     </tr>
                     <tr>
                         <td class="item-num">14</td>
@@ -214,7 +221,7 @@
                         <td class="score-col">4점</td>
                         <td><span class="status-chip available" data-materials="• 一分기소방안전교육기록.docx&#10;• 二분기소방안전교육기록.docx&#10;• 三분기소방안전교육기록.docx&#10;• 안전现状평가보고 - 54쪽、소방，方爆상황검사표.pdf&#10;• 안전진단보고 - 9쪽、건축물소방，防爆상황진단표.pdf">✓ 확보<span class="tooltip"></span></span></td>
                         <td class="eval-col">2/4</td>
-                        <td class="reason">훈련 이력은 있으나 개선 결과 없음</td>
+                        <td class="reason"><span class="evidence-trigger" data-evidence="[출처: 一/二/三분기소방안전교육기록.docx]&#10;1~3분기 소방안전교육기록 반복(CO2소화기, 원격기동, 수동시작 훈련 등). 결과란이 전부 「/」로만 채워져 개선·평가 결과 미기재&#10;[출처: 안전진단보고 - 9쪽]&#10;「공장동1: 방화벽 없음, 내화성 시간 부족」, 「공장동2: 수소가스 원자로 입구 파이프라인에 소화댐퍼 없음」 등 결함 지적, 개선조치 시행 확인 기록 없음&#10;[출처: 안전현상평가보고 - 54쪽]&#10;결론부: 「기업의 안전현재상태에 몇몇 부족이 있습니다」, 위 결함이 재확인 대기 상태로 남아있음">훈련 이력은 있으나 개선 결과 없음</span></td>
                     </tr>
                     <tr>
                         <td class="item-num">16</td>
@@ -222,7 +229,7 @@
                         <td class="score-col">4点</td>
                         <td><span class="status-chip available" data-materials="• 25년연도建筑소방시설검사보고.pdf&#10;• 소방유지보수(七月分).pdf&#10;• 전사소방기자재및긴급탈출示意그림.jpg">✓ 확보<span class="tooltip"></span></span></td>
                         <td class="eval-col">2/4</td>
-                        <td class="reason">점검은 정기적이나 결함 개선 미흡</td>
+                        <td class="reason"><span class="evidence-trigger" data-evidence="[출처: 25년연도소방시설검사보고.pdf, 소방유지보수(七月分).pdf]&#10;두 파일 모두 전체 페이지가 이미지 전용으로 점검결과·결함내용 텍스트 확인 불가&#10;[출처: 전사소방기자재및긴급탈출그림.jpg]&#10;소화기·소화전·비상구 배치와 대피요령(「1.경보 2.젖은 수건으로 입·코 덮기 3.가장 가까운 비상구로」)만 표시, 점검·결함·유지보수 결과 정보는 없음&#10;※ 지정 파일 3건 모두 OCR 미처리로 원본 확인이 별도로 필요함">점검은 정기적이나 결함 개선 미흡</span></td>
                     </tr>
                     <tr>
                         <td class="item-num">17</td>
@@ -230,7 +237,7 @@
                         <td class="score-col">2점</td>
                         <td><span class="status-chip available" data-materials="• 2025년11월 소방탈출비상 훈련기록.pdf&#10;• 2026년훈련计划书.xlsx&#10;• 2026비상 대응계획 - 33쪽、화재사고특정비상 대응계획.pdf&#10;• UPS화재비상 훈련기록.pdf">✓ 확보<span class="tooltip"></span></span></td>
                         <td class="eval-col">2/2</td>
-                        <td class="reason">적절하게 운영됨</td>
+                        <td class="reason"><span class="evidence-trigger" data-evidence="[출처: 2026년훈련계획서.xlsx]&#10;「1.화재 드릴 - 담당 양Xiaoqing - 11월」, 「2.UPS비상훈련 - 담당 양Xiaoqing - 6월」, 「5.수소역 폭발 비상훈련 - 담당 Zi용창 - 4월」 등 총 18개 항목이 월별·담당자별로 배정&#10;[출처: 2026비상 대응계획 - 33쪽]&#10;통신 및 Liaison 그룹, 구조팀, 응급구호반, 설비보안그룹 등 조직별 대응체계 상세. 「정보는 10분 내 관리이사에 보고, 1시간 안에 정부와 비상대응관리부서에 보고」, 「화재 구조역은 회사에서 약 1.6km, 신속 대응 가능」">적절하게 운영됨</span></td>
                     </tr>
                     <tr>
                         <td class="item-num">18</td>
@@ -246,7 +253,7 @@
                         <td class="score-col">4점</td>
                         <td><span class="status-chip available" data-materials="• 안전光栅점검표.pdf&#10;• 안전설비(시설)대장.xlsx">✓ 확보<span class="tooltip"></span></span></td>
                         <td class="eval-col">3/4</td>
-                        <td class="reason">점검은 하나 결함 재확인 부족</td>
+                        <td class="reason"><span class="evidence-trigger" data-evidence="[출처: 안전光栅점검표.pdf]&#10;전 페이지 이미지 전용으로 텍스트 추출 불가&#10;[출처: 안전설비(시설)대장.xlsx]&#10;135행에 걸쳐 소화기·화재감지기·방폭시설·안전밸브 등 항목별 상태값이 예외 없이 전부 「양호」로만 기재. 예: 「가연성 가스 검지기(hydrogen) | 수소공급소 | 양호」, 「소화전 | 내부 | 양호」. 결함 발생·조치·재확인 이력을 남기는 열 자체가 없음">점검은 하나 결함 재확인 부족</span></td>
                     </tr>
                     <tr>
                         <td class="item-num">20</td>
@@ -254,7 +261,7 @@
                         <td class="score-col">4점</td>
                         <td><span class="status-chip available" data-materials="• 三星安全生产作业절차.pdf">✓ 확보<span class="tooltip"></span></span></td>
                         <td class="eval-col">4/4</td>
-                        <td class="reason">기준이 적절하게 적용됨</td>
+                        <td class="reason"><span class="evidence-trigger" data-evidence="[출처: 三星안전생산작업절차.pdf]&#10;「삼성정밀스테인리스(평호)유한공사 안전생산 작업절차서」(SSPH-EHS-D/0), 개정이력이 「A/0 새 출판 2010년01월07일」부터 「D/0 2025년01월31일」까지 지속 갱신. 목차는 30개 부문으로 세분화, 제1조 「이 조항은 삼성정밀스테인리스(평호)유한공사 생산부의 모든 직원에게 적용됩니다」">기준이 적절하게 적용됨</span></td>
                     </tr>
                     <tr>
                         <td class="item-num">21</td>
@@ -262,7 +269,7 @@
                         <td class="score-col">4점</td>
                         <td><span class="status-chip available" data-materials="• 202601크레인유지보수 요약보고.pdf&#10;• 202604크레인유지보수 요약보고.pdf&#10;• 202607크레인유지보수 요약보고.pdf&#10;• 25톤행거정기검사보고.pdf&#10;• 三星안전생산작업절차 - 42쪽，지게차작업절차.pdf&#10;• 林德지게차정기검사보고(BA지게차).pdf&#10;• 林德지게차정기검사보고(PK지게차).pdf&#10;• 林德지게차정기검사보고(营业지게차).pdf&#10;• 크레인 관련 10개 파일 외">✓ 확보<span class="tooltip"></span></span></td>
                         <td class="eval-col">4/4</td>
-                        <td class="reason">정기적이고 체계적인 유지보수</td>
+                        <td class="reason"><span class="evidence-trigger" data-evidence="[출처: 202601/202604/202607 크레인유지보수요약보고.pdf]&#10;매월(1,4,7월) 18대 전 크레인 반복 점검: 「18 크레인, 1월간 정비, 모든 기중기는 완전히 기능적입니다」. 결함 발견 시(「걸이는 부서집니다」, 「브레이크는 유용한 생활 도달」) 「교체 제안」 조치와 교체부품 리스트 명시&#10;[출처: 25톤행거정기검사보고.pdf]&#10;「검사 결과 | 적합」, 「다음 정기검사: 2028년07월」(검사일 2026.07.27, TSG 51-2023 기준)&#10;[출처: 三星안전생산작업절차 - 42쪽]&#10;지게차 안전 프로토콜: 「사전 사용 검사 및 준비: 브레이크, 경적, 등화 체계의 감도·신뢰성 검사」 등 사용전 점검 및 정기검사·운전자 자격관리 규정">정기적이고 체계적인 유지보수</span></td>
                     </tr>
                     <tr>
                         <td class="item-num">22</td>
@@ -286,7 +293,7 @@
                         <td class="score-col">4점</td>
                         <td><span class="status-chip available" data-materials="• SSPH-生产区域平面그림.JPG">✓ 확보<span class="tooltip"></span></span></td>
                         <td class="eval-col">4/4</td>
-                        <td class="reason">명확하게 표시됨</td>
+                        <td class="reason"><span class="evidence-trigger" data-evidence="[출처: SSPH-생산구역평면그림.JPG]&#10;중/영/한 3개 언어 병기로 구역·설비명 표시: 「유통실-1/Distribution Room/배전실」, 「감소 기계/degreasing machine/탈지기」 등. 단, 안전표지 자체의 표시 여부는 이 도면만으로 직접 확인되지 않음">명확하게 표시됨</span></td>
                     </tr>
                     <tr>
                         <td class="item-num">25</td>
@@ -294,7 +301,7 @@
                         <td class="score-col">4점</td>
                         <td><span class="status-chip available" data-materials="• 26년6월배기검사보고.pdf&#10;• 26년6월폐수검사보고.pdf&#10;• 每月环境局网站上传数据.png&#10;• 公众号流程図.xlsx&#10;• 모니터링点位그림.PNG&#10;• 배출허가증서自行모니터링计划.pdf&#10;• 배출허가증서자체모니터링계획.pdf&#10;• 배출허가증서表.pdf&#10;• 폐수工业.jpg">✓ 확보<span class="tooltip"></span></span></td>
                         <td class="eval-col">3/4</td>
-                        <td class="reason">모니터링은 하나 개선 결과 없음</td>
+                        <td class="reason"><span class="evidence-trigger" data-evidence="[출처: 每月환경局网站上传데이터.png]&#10;「100.00% 2026-07완료율, 324 측정대상 데이터, 200 공개완료, 0 미공개, 0 기준초과」. 단 「기준시점 2026-08-19, 2026 전체 완료율은 88.84%」로 연간 누적 기준 미완료분 존재&#10;[출처: 모니터링点位그림.PNG]&#10;「DA001(ZM) 비메탄총탄화수소, DA002(BA) 이산화황·질소산화물, DA003(BA) 황안개」 등 배출구별 모니터링 대상 지정&#10;[출처: 공정흐름그림.xlsx]&#10;3개 시트 모두 텍스트 없이 도형(57개)으로만 구성되어 개선조치·저감설비 효과를 보여주는 자료가 없음">모니터링은 하나 개선 결과 없음</span></td>
                     </tr>
                     <tr>
                         <td class="item-num">26</td>
@@ -327,59 +334,86 @@
     </div>
 
     <script>
-        const chips = document.querySelectorAll('.status-chip');
-        let pinnedChip = null;
+        let pinnedEl = null;
 
-        chips.forEach(chip => {
-            chip.addEventListener('mouseenter', () => {
-                const tooltip = chip.querySelector('.tooltip');
-                const materials = chip.getAttribute('data-materials');
-                if (materials && !tooltip.classList.contains('pinned')) {
-                    // 줄바꿈 처리
-                    const items = materials.split('\n').filter(item => item.trim());
-                    tooltip.innerHTML = items.map(item => `<div class="tooltip-item">${item.trim()}</div>`).join('');
+        function renderMaterials(materials) {
+            const items = materials.split('\n').filter(item => item.trim());
+            return items.map(item => `<div class="tooltip-item">${item.trim()}</div>`).join('');
+        }
+
+        function renderEvidence(evidence) {
+            const items = evidence.split('\n').filter(item => item.trim());
+            return items.map(item => {
+                const t = item.trim();
+                if (t.startsWith('[출처:')) {
+                    return `<div class="evidence-source">${t}</div>`;
+                }
+                return `<div class="evidence-text">${t}</div>`;
+            }).join('');
+        }
+
+        function setupTooltip(el, tooltipSelector, dataAttr, renderFn) {
+            el.addEventListener('mouseenter', () => {
+                const tooltip = el.querySelector(tooltipSelector);
+                const data = el.getAttribute(dataAttr);
+                if (data && !tooltip.classList.contains('pinned')) {
+                    tooltip.innerHTML = renderFn(data);
                     tooltip.classList.add('show');
                 }
             });
 
-            chip.addEventListener('mouseleave', () => {
-                const tooltip = chip.querySelector('.tooltip');
+            el.addEventListener('mouseleave', () => {
+                const tooltip = el.querySelector(tooltipSelector);
                 if (!tooltip.classList.contains('pinned')) {
                     tooltip.classList.remove('show');
                 }
             });
 
-            chip.addEventListener('click', (e) => {
+            el.addEventListener('click', (e) => {
                 e.stopPropagation();
-                const tooltip = chip.querySelector('.tooltip');
-                const materials = chip.getAttribute('data-materials');
+                const tooltip = el.querySelector(tooltipSelector);
+                const data = el.getAttribute(dataAttr);
+                if (!data) return;
 
                 if (!tooltip.classList.contains('pinned')) {
-                    // 다른 pinned 칩 해제
-                    if (pinnedChip && pinnedChip !== chip) {
-                        pinnedChip.querySelector('.tooltip').classList.remove('pinned');
+                    if (pinnedEl && pinnedEl !== el) {
+                        const prevTooltip = pinnedEl.querySelector('.tooltip, .evidence-tooltip');
+                        if (prevTooltip) {
+                            prevTooltip.classList.remove('pinned');
+                            prevTooltip.classList.remove('show');
+                        }
                     }
-
-                    // 현재 칩 고정
-                    pinnedChip = chip;
-                    const items = materials.split('\n').filter(item => item.trim());
-                    tooltip.innerHTML = items.map(item => `<div class="tooltip-item">${item.trim()}</div>`).join('');
+                    pinnedEl = el;
+                    tooltip.innerHTML = renderFn(data);
                     tooltip.classList.add('pinned');
                     tooltip.classList.add('show');
                 } else {
                     tooltip.classList.remove('pinned');
                     tooltip.classList.remove('show');
-                    pinnedChip = null;
+                    pinnedEl = null;
                 }
             });
+        }
+
+        document.querySelectorAll('.status-chip').forEach(chip => {
+            setupTooltip(chip, '.tooltip', 'data-materials', renderMaterials);
         });
 
-        // 다른 곳을 클릭하면 pinned 해제
+        document.querySelectorAll('.evidence-trigger').forEach(trigger => {
+            const tooltip = document.createElement('span');
+            tooltip.className = 'evidence-tooltip';
+            trigger.appendChild(tooltip);
+            setupTooltip(trigger, '.evidence-tooltip', 'data-evidence', renderEvidence);
+        });
+
         document.addEventListener('click', () => {
-            if (pinnedChip) {
-                pinnedChip.querySelector('.tooltip').classList.remove('pinned');
-                pinnedChip.querySelector('.tooltip').classList.remove('show');
-                pinnedChip = null;
+            if (pinnedEl) {
+                const tooltip = pinnedEl.querySelector('.tooltip, .evidence-tooltip');
+                if (tooltip) {
+                    tooltip.classList.remove('pinned');
+                    tooltip.classList.remove('show');
+                }
+                pinnedEl = null;
             }
         });
     </script>
