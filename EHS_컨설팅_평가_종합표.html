@@ -382,11 +382,19 @@
             tooltip.style.visibility = 'visible';
         }
 
+        function unpin() {
+            if (pinnedEl) {
+                const tooltip = tooltipMap.get(pinnedEl);
+                if (tooltip) tooltip.classList.remove('pinned', 'show');
+                pinnedEl = null;
+            }
+        }
+
         function setupTooltip(el, dataAttr, renderFn, tooltipClass) {
             const tooltip = document.createElement('div');
             tooltip.className = tooltipClass;
             document.body.appendChild(tooltip);
-            tooltipMap.set(el, tooltip);
+            tooltipMap.set(el, { tooltip, dataAttr, renderFn });
 
             el.addEventListener('mouseenter', () => {
                 const data = el.getAttribute(dataAttr);
@@ -402,31 +410,6 @@
                     tooltip.classList.remove('show');
                 }
             });
-
-            el.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const data = el.getAttribute(dataAttr);
-                if (!data) return;
-
-                if (!tooltip.classList.contains('pinned')) {
-                    if (pinnedEl && pinnedEl !== el) {
-                        const prevTooltip = tooltipMap.get(pinnedEl);
-                        if (prevTooltip) {
-                            prevTooltip.classList.remove('pinned');
-                            prevTooltip.classList.remove('show');
-                        }
-                    }
-                    pinnedEl = el;
-                    tooltip.innerHTML = renderFn(data);
-                    tooltip.classList.add('pinned');
-                    tooltip.classList.add('show');
-                    positionTooltip(el, tooltip);
-                } else {
-                    tooltip.classList.remove('pinned');
-                    tooltip.classList.remove('show');
-                    pinnedEl = null;
-                }
-            });
         }
 
         document.querySelectorAll('.status-chip').forEach(chip => {
@@ -437,22 +420,39 @@
             setupTooltip(trigger, 'data-evidence', renderEvidence, 'evidence-tooltip');
         });
 
-        document.addEventListener('click', () => {
-            if (pinnedEl) {
-                const tooltip = tooltipMap.get(pinnedEl);
-                if (tooltip) {
-                    tooltip.classList.remove('pinned');
-                    tooltip.classList.remove('show');
+        // 클릭 이벤트를 한 곳에서 처리: 트리거 클릭 = 고정 토글, 그 외 = 닫기
+        document.addEventListener('click', (e) => {
+            const trigger = e.target.closest('.status-chip, .evidence-trigger');
+
+            if (trigger && tooltipMap.has(trigger)) {
+                const entry = tooltipMap.get(trigger);
+                const data = trigger.getAttribute(entry.dataAttr);
+                if (!data) return;
+
+                if (entry.tooltip.classList.contains('pinned') && pinnedEl === trigger) {
+                    unpin();
+                } else {
+                    unpin();
+                    pinnedEl = trigger;
+                    entry.tooltip.innerHTML = entry.renderFn(data);
+                    entry.tooltip.classList.add('pinned', 'show');
+                    positionTooltip(trigger, entry.tooltip);
                 }
-                pinnedEl = null;
+                return;
             }
+
+            const insideTooltip = e.target.closest('.tooltip, .evidence-tooltip');
+            if (insideTooltip) return; // 말풍선 내부 클릭(텍스트 선택 등)은 유지
+
+            // 그 외 영역 클릭 시 닫기
+            unpin();
         });
 
         // 스크롤/리사이즈 시 위치가 어긋나지 않도록 고정된 말풍선 재배치
         function repositionPinned() {
             if (pinnedEl) {
-                const tooltip = tooltipMap.get(pinnedEl);
-                if (tooltip) positionTooltip(pinnedEl, tooltip);
+                const entry = tooltipMap.get(pinnedEl);
+                if (entry) positionTooltip(pinnedEl, entry.tooltip);
             }
         }
         window.addEventListener('scroll', repositionPinned, true);
