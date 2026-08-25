@@ -32,18 +32,17 @@
         .available { background: #d4edda; color: #155724; }
         .unavailable { background: #f8d7da; color: #721c24; }
         .reason { font-size: 12px; color: #666; }
-        .evidence-trigger { border-bottom: 1px dashed #0066cc; cursor: pointer; position: relative; color: #0b5ed7; }
-        .evidence-tooltip { position: absolute; background: #222; color: #f1f1f1; padding: 14px 16px; border-radius: 6px; font-size: 12px; z-index: 1000; bottom: 130%; left: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.3); display: none; min-width: 340px; max-width: 460px; white-space: normal; line-height: 1.7; max-height: 360px; overflow-y: auto; }
+        .evidence-trigger { border-bottom: 1px dashed #0066cc; cursor: pointer; color: #0b5ed7; }
+        .evidence-tooltip { position: fixed; background: #222; color: #f1f1f1; padding: 14px 16px; border-radius: 6px; font-size: 12px; z-index: 2000; box-shadow: 0 4px 12px rgba(0,0,0,0.35); display: none; width: 380px; max-width: calc(100vw - 24px); white-space: normal; word-break: break-word; line-height: 1.7; max-height: 360px; overflow-y: auto; }
         .evidence-tooltip.show { display: block; }
         .evidence-tooltip.pinned { display: block !important; }
         .evidence-source { color: #7fc8ff; font-weight: 600; margin-top: 8px; margin-bottom: 2px; }
         .evidence-source:first-child { margin-top: 0; }
         .evidence-text { margin: 0 0 6px; }
-        .tooltip { position: absolute; background: #333; color: white; padding: 14px 16px; border-radius: 6px; font-size: 12px; z-index: 1000; bottom: 130%; left: 50%; transform: translateX(-50%); box-shadow: 0 4px 12px rgba(0,0,0,0.3); display: none; min-width: 300px; white-space: normal; line-height: 1.8; max-height: 400px; overflow-y: auto; }
+        .tooltip { position: fixed; background: #333; color: white; padding: 14px 16px; border-radius: 6px; font-size: 12px; z-index: 2000; box-shadow: 0 4px 12px rgba(0,0,0,0.35); display: none; width: 320px; max-width: calc(100vw - 24px); white-space: normal; word-break: break-word; line-height: 1.8; max-height: 400px; overflow-y: auto; }
         .tooltip.show { display: block; }
         .tooltip.pinned { display: block !important; }
         .tooltip-item { margin: 4px 0; }
-        .tooltip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 6px solid transparent; border-top-color: #333; }
         .footer { margin-top: 30px; padding: 20px; background: #f9f9f9; border-radius: 6px; border-left: 4px solid #0066cc; }
         .footer h3 { margin: 0 0 15px; font-size: 14px; color: #0b0b0b; font-weight: 600; }
         .footer-text { font-size: 12px; color: #333; margin: 8px 0; line-height: 1.6; }
@@ -335,6 +334,7 @@
 
     <script>
         let pinnedEl = null;
+        const tooltipMap = new Map();
 
         function renderMaterials(materials) {
             const items = materials.split('\n').filter(item => item.trim());
@@ -352,18 +352,52 @@
             }).join('');
         }
 
-        function setupTooltip(el, tooltipSelector, dataAttr, renderFn) {
+        function positionTooltip(el, tooltip) {
+            const rect = el.getBoundingClientRect();
+            // 기본: 트리거 위, 가로 중앙 정렬
+            tooltip.style.left = '0px';
+            tooltip.style.top = '0px';
+            tooltip.style.visibility = 'hidden';
+            tooltip.style.display = 'block';
+
+            const tw = tooltip.offsetWidth;
+            const th = tooltip.offsetHeight;
+            const margin = 10;
+
+            let left = rect.left + rect.width / 2 - tw / 2;
+            let top = rect.top - th - margin;
+
+            // 화면 위쪽에 공간이 없으면 아래로
+            if (top < margin) {
+                top = rect.bottom + margin;
+            }
+            // 좌우 화면 밖으로 나가지 않게 보정
+            if (left < margin) left = margin;
+            if (left + tw > window.innerWidth - margin) left = window.innerWidth - tw - margin;
+            // 아래로 내려도 화면 밑을 넘으면 화면 안에 붙임
+            if (top + th > window.innerHeight - margin) top = Math.max(margin, window.innerHeight - th - margin);
+
+            tooltip.style.left = left + 'px';
+            tooltip.style.top = top + 'px';
+            tooltip.style.visibility = 'visible';
+        }
+
+        function setupTooltip(el, dataAttr, renderFn, tooltipClass) {
+            const tooltip = document.createElement('div');
+            tooltip.className = tooltipClass;
+            document.body.appendChild(tooltip);
+            tooltipMap.set(el, tooltip);
+
             el.addEventListener('mouseenter', () => {
-                const tooltip = el.querySelector(tooltipSelector);
                 const data = el.getAttribute(dataAttr);
                 if (data && !tooltip.classList.contains('pinned')) {
                     tooltip.innerHTML = renderFn(data);
                     tooltip.classList.add('show');
+                    positionTooltip(el, tooltip);
                 }
             });
 
             el.addEventListener('mouseleave', () => {
-                const tooltip = el.querySelector(tooltipSelector);
                 if (!tooltip.classList.contains('pinned')) {
                     tooltip.classList.remove('show');
                 }
@@ -371,13 +405,12 @@
 
             el.addEventListener('click', (e) => {
                 e.stopPropagation();
-                const tooltip = el.querySelector(tooltipSelector);
                 const data = el.getAttribute(dataAttr);
                 if (!data) return;
 
                 if (!tooltip.classList.contains('pinned')) {
                     if (pinnedEl && pinnedEl !== el) {
-                        const prevTooltip = pinnedEl.querySelector('.tooltip, .evidence-tooltip');
+                        const prevTooltip = tooltipMap.get(pinnedEl);
                         if (prevTooltip) {
                             prevTooltip.classList.remove('pinned');
                             prevTooltip.classList.remove('show');
@@ -387,6 +420,7 @@
                     tooltip.innerHTML = renderFn(data);
                     tooltip.classList.add('pinned');
                     tooltip.classList.add('show');
+                    positionTooltip(el, tooltip);
                 } else {
                     tooltip.classList.remove('pinned');
                     tooltip.classList.remove('show');
@@ -396,19 +430,16 @@
         }
 
         document.querySelectorAll('.status-chip').forEach(chip => {
-            setupTooltip(chip, '.tooltip', 'data-materials', renderMaterials);
+            setupTooltip(chip, 'data-materials', renderMaterials, 'tooltip');
         });
 
         document.querySelectorAll('.evidence-trigger').forEach(trigger => {
-            const tooltip = document.createElement('span');
-            tooltip.className = 'evidence-tooltip';
-            trigger.appendChild(tooltip);
-            setupTooltip(trigger, '.evidence-tooltip', 'data-evidence', renderEvidence);
+            setupTooltip(trigger, 'data-evidence', renderEvidence, 'evidence-tooltip');
         });
 
         document.addEventListener('click', () => {
             if (pinnedEl) {
-                const tooltip = pinnedEl.querySelector('.tooltip, .evidence-tooltip');
+                const tooltip = tooltipMap.get(pinnedEl);
                 if (tooltip) {
                     tooltip.classList.remove('pinned');
                     tooltip.classList.remove('show');
@@ -416,6 +447,16 @@
                 pinnedEl = null;
             }
         });
+
+        // 스크롤/리사이즈 시 위치가 어긋나지 않도록 고정된 말풍선 재배치
+        function repositionPinned() {
+            if (pinnedEl) {
+                const tooltip = tooltipMap.get(pinnedEl);
+                if (tooltip) positionTooltip(pinnedEl, tooltip);
+            }
+        }
+        window.addEventListener('scroll', repositionPinned, true);
+        window.addEventListener('resize', repositionPinned);
     </script>
 </body>
 </html>
