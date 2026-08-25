@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EHS 컨설팅 체크리스트 - 종합 평가</title>
+    <style>
+        * { box-sizing: border-box; }
+        html { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif; }
+        body { margin: 0; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .header { margin-bottom: 30px; border-bottom: 2px solid #0066cc; padding-bottom: 15px; }
+        h1 { font-size: 24px; font-weight: 600; color: #0b0b0b; margin: 0 0 5px; }
+        .date { font-size: 12px; color: #666; margin: 5px 0; }
+        .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; margin-bottom: 30px; }
+        .stat-card { background: #f9f9f9; border: 1px solid #e0e0e0; border-radius: 6px; padding: 15px; text-align: center; }
+        .stat-label { font-size: 12px; color: #666; margin-bottom: 8px; font-weight: 500; }
+        .stat-value { font-size: 28px; font-weight: 700; color: #0066cc; margin-bottom: 5px; }
+        .stat-desc { font-size: 11px; color: #999; }
+        .table-wrapper { overflow-x: auto; margin-bottom: 30px; position: relative; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        thead { background: #f0f0f0; }
+        th { color: #0b0b0b; font-weight: 600; padding: 12px 8px; text-align: left; border: 1px solid #d0d0d0; }
+        td { padding: 12px 8px; border: 1px solid #e0e0e0; }
+        tbody tr:nth-child(even) { background: #fafafa; }
+        tbody tr:hover { background: #f0f7ff; }
+        .item-num { width: 30px; color: #999; text-align: center; font-weight: 500; }
+        .item-name { color: #0b0b0b; font-weight: 500; }
+        .score-col { text-align: center; width: 50px; }
+        .eval-col { text-align: center; width: 50px; font-weight: 600; }
+        .status-chip { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; position: relative; cursor: pointer; }
+        .available { background: #d4edda; color: #155724; }
+        .unavailable { background: #f8d7da; color: #721c24; }
+        .reason { font-size: 12px; color: #666; }
+        .tooltip { position: absolute; background: #333; color: white; padding: 14px 16px; border-radius: 6px; font-size: 12px; z-index: 1000; bottom: 130%; left: 50%; transform: translateX(-50%); box-shadow: 0 4px 12px rgba(0,0,0,0.3); display: none; min-width: 300px; white-space: normal; line-height: 1.8; max-height: 400px; overflow-y: auto; }
+        .tooltip.show { display: block; }
+        .tooltip.pinned { display: block !important; }
+        .tooltip-item { margin: 4px 0; }
+        .tooltip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 6px solid transparent; border-top-color: #333; }
+        .footer { margin-top: 30px; padding: 20px; background: #f9f9f9; border-radius: 6px; border-left: 4px solid #0066cc; }
+        .footer h3 { margin: 0 0 15px; font-size: 14px; color: #0b0b0b; font-weight: 600; }
+        .footer-text { font-size: 12px; color: #333; margin: 8px 0; line-height: 1.6; }
+        .grade-box { display: inline-block; padding: 10px 16px; background: #ffc107; color: #333; border-radius: 6px; font-weight: 600; margin: 10px 0; }
+        .improvement-section { margin-top: 15px; }
+        .improvement-title { font-weight: 600; color: #0b0b0b; margin-top: 12px; margin-bottom: 6px; }
+        @media print {
+            body { background: white; }
+            .container { box-shadow: none; padding: 0; }
+            .table-wrapper { overflow-x: visible; }
+            table { font-size: 11px; }
+            th, td { padding: 8px 6px; }
+            .tooltip { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>EHS 컨설팅 체크리스트 - 종합 평가 보고서</h1>
+            <div class="date">평호 SSPH (26년 작성예시) | 작성일: 2026년 8월 25일</div>
+        </div>
+
+        <div class="summary">
+            <div class="stat-card">
+                <div class="stat-label">확보된 자료</div>
+                <div class="stat-value">15</div>
+                <div class="stat-desc">/ 25개 항목 (60%)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">평가 점수</div>
+                <div class="stat-value">35</div>
+                <div class="stat-desc">/ 100점 (35%)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">만점 항목</div>
+                <div class="stat-value">5</div>
+                <div class="stat-desc">4점 만점</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">개선 필요</div>
+                <div class="stat-value">10</div>
+                <div class="stat-desc">1~3점</div>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 30px;">#</th>
+                        <th>세부사항</th>
+                        <th style="width: 60px;">배점</th>
+                        <th style="width: 70px;">자료 확보</th>
+                        <th style="width: 50px;">평가</th>
+                        <th style="width: 120px;">평가 이유</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="item-num">1</td>
+                        <td class="item-name">1.1.1 연간 안전관리 목표 수립 및 이행</td>
+                        <td class="score-col">2점</td>
+                        <td><span class="status-chip available" data-materials="• '26년 안전보건 예산계획 (26년EHS비용예산).xlsx&#10;• 25년 안전보건 예산관리표25년EHS비용실적.xlsx&#10;• 26년 안전보건 예산실적 관리표_Safety Budget(26년1-6월실적).xlsx&#10;• 26_평호KPI(환경안전).xlsx&#10;• 26년7월안전환경KPI.xlsx&#10;• 연도안전투입계획.pdf">✓ 확보<span class="tooltip"></span></span></td>
+                        <td class="eval-col">1/2</td>
+                        <td class="reason">예산 계획 보고 누락</td>
+                    </tr>
+                    <tr>
+                        <td class="item-num">2</td>
+                        <td class="item-name">1.1.2 법인장 점검, 소통 등 안전활동</td>
+                        <td class="score-col">4점</td>
+                        <td><span class="status-chip available" data-materials="• 七月안전위원회보고.pdf">✓ 확보<span class="tooltip"></span></span></td>
+                        <td class="eval-col">3/4</td>
+                        <td class="reason">반기 기준 미달</td>
+                    </tr>
+                    <tr>
+                        <td class="item-num">3</td>
+                        <td class="item-name">1.1.3 안전목표 달성도 평가 및 신년도 계획</td>
+                        <td class="score-col">4점</td>
+                        <td><span class="status-chip unavailable">✗ 미확보<span class="tooltip"></span></span></td>
+                        <td class="eval-col">-</td>
+                        <td class="reason">자료 없음</td>
+                    </tr>
+                    <tr>
+                        <td class="item-num">4</td>
+                        <td class="item-name">1.2.1 안전보건 관련 법률·기준 숙지</td>
+                        <td class="score-col">2점</td>
+                        <td><span class="status-chip available" data-materials="• 국가EHS기술기준목록.xlsx&#10;• 안전환경법률법규및규범적 문서목록.xlsx">✓ 확보<span class="tooltip"></span></span></td>
+                        <td class="eval-col">1/2</td>
+                        <td class="reason">목록만 있고 적용 증거 부족</td>
+                    </tr>
+                    <tr>
+                        <td class="item-num">5</td>
+                        <td class="item-name">1.2.2 사고·재해 발생시 신고·조사 및 처리</td>
+                        <td class="score-col">2점</td>
+                        <td><span class="status-chip unavailable">✗ 미확보<span class="tooltip"></span></span></td>
+                        <td class="eval-col">-</td>
+                        <td class="reason">자료 없음</td>
+                    </tr>
+                    <tr>
+                        <td class="item-num">6</td>
+                        <td class="item-name">1.2.3 사고 발생시 대응 체계 및 매뉴얼</td>
+                        <td class="score-col">4점</td>
+                        <td><span class="status-chip available" data-materials="• HSE 기준 - 23쪽、사고의보고、조사및처리.docx&#10;• 안전생산규정제도편집 - 95쪽、사고관리제도.pdf">✓ 확보<span class="tooltip"></span></span></td>
+                        <td class="eval-col">2/4</td>
+                        <td class="reason">제도는 있으나 실행 증거 부족</td>
+                    </tr>
+                    <tr>
+                        <td class="item-num">7</td>
+                        <td class="item-name">1.3.1 종업원 및 협력사 대상 안전교육</td>
+                        <td class="score-col">4점</td>
+                        <td><span class="status-chip available" data-materials="• 2026 환경안전G연도교육계획및실적.xls&#10;• 20260730 안전위험식별교육기록.xlsx">✓ 확보<span class="tooltip"></span></span></td>
+                        <td class="eval-col">3/4</td>
+                        <td class="reason">교육 실적은 있으나 효과성 평가 부족</td>
+                    </tr>
+                    <tr>
+                        <td class="item-num">8</td>
+                        <td class="item-name">1.3.2 안전조직 구성 및 인력 배치</td>
+                        <td class="score-col">4점</td>
+                        <td><span class="status-chip available" data-materials="• 안전그룹조직그림및인원자격증서.xls">✓ 확보<span class="tooltip"></span></span></td>
+                        <td class="eval-col">4/4</td>
+                        <td class="reason">적절하게 구성됨</td>
+                    </tr>
+                    <tr>
+                        <td class="item-num">9</td>
+                        <td class="item-name">2.1.1 안전위험 식별 및 분급·관리</td>
+                        <td class="score-col">4점</td>
+                        <td><span class="status-chip available" data-materials="• SSPH안전위험식별및분급관리목록(2025).pdf&#10;• SSPH안전위험식별및분급관리목록(2026).pdf&#10;• 안전위험식별、分级及管理总体结论.pdf&#10;• 위험원식별、위험평가控制制度.docx">✓ 확보<span class="tooltip"></span></span></td>
+                        <td class="eval-col">2/4</td>
+                        <td class="reason">식별은 하나 지속적 보완 부족</td>
+                    </tr>
+                    <tr>
+                        <td class="item-num">10</td>
+                        <td class="item-name">2.1.2 높은 곳 작업, 밀폐공간 등 위험작업 관리</td>
+                        <td class="score-col">4점</td>
+                        <td><span class="status-chip available" data-materials="• 높은처작업기록(예).pdf&#10;• 안전생산규정제도편집 - 55쪽、위험성작업안전관리제도.pdf">✓ 확보<span class="tooltip"></span></span></td>
+                        <td class="eval-col">2/4</td>
+                        <td class="reason">제도는 있으나 실제 적용 미흡</td>
+                    </tr>
+                    <tr>
+                        <td class="item-num">11</td>
+                        <td class="item-name">2.1.3 안전설비·안전장치의 정기적 점검 및 유지보수</td>
+                        <td class="score-col">4점</td>
+                        <td><span class="status-chip unavailable">✗ 미확보<span class="tooltip"></span></span></td>
+                        <td class="eval-col">-</td>
+                        <td class="reason">자료 없음</td>
+                    </tr>
+                    <tr>
+                        <td class="item-num">12</td>
+                        <td class="item-name">2.2.1 기계·장비 안전설정 및 보호장치</td>
+                        <td class="score-col">4점</td>
+                        <td><span class="status-chip unavailable">✗ 미확보<span class="tooltip"></span></span></td>
+                        <td class="eval-col">-</td>
+                        <td class="reason">자료 없음</td>
+                    </tr>
+                    <tr>
+                        <td class="item-num">13</td>
+                        <td class="item-name">2.2.2 사내외 협력사 안전관리</td>
+                        <td class="score-col">4점</td>
+                        <td><span class="status-chip available" data-materials="• 사내외부업체안전관리지침.pdf">✓ 확보<span class="tooltip"></span></span></td>
+                        <td class="eval-col">3/4</td>
+                        <td class="reason">지침은 있으나 실행 점검 미흡</td>
+                    </tr>
+                    <tr>
+                        <td class="item-num">14</td>
+                        <td class="item-name">2.2.3 화학물질·위험물 관리</td>
+                        <td class="score-col">2점</td>
+                        <td><span class="status-chip unavailable">✗ 미확보<span class="tooltip"></span></span></td>
+                        <td class="eval-col">-</td>
+                        <td class="reason">자료 없음</td>
+                    </tr>
+                    <tr>
+                        <td class="item-num">15</td>
+                        <td class="item-name">2.3.1 소방 안전관리 (화재예방, 훈련)</td>
+                        <td class="score-col">4점</td>
+                        <td><span class="status-chip available" data-materials="• 一分기소방안전교육기록.docx&#10;• 二분기소방안전교육기록.docx&#10;• 三분기소방안전교육기록.docx&#10;• 안전现状평가보고 - 54쪽、소방，方爆상황검사표.pdf&#10;• 안전진단보고 - 9쪽、건축물소방，防爆상황진단표.pdf">✓ 확보<span class="tooltip"></span></span></td>
+                        <td class="eval-col">2/4</td>
+                        <td class="reason">훈련 이력은 있으나 개선 결과 없음</td>
+                    </tr>
+                    <tr>
+                        <td class="item-num">16</td>
+                        <td class="item-name">2.3.2 소방시설 점검 및 유지보수</td>
+                        <td class="score-col">4点</td>
+                        <td><span class="status-chip available" data-materials="• 25년연도建筑소방시설검사보고.pdf&#10;• 소방유지보수(七月分).pdf&#10;• 전사소방기자재및긴급탈출示意그림.jpg">✓ 확보<span class="tooltip"></span></span></td>
+                        <td class="eval-col">2/4</td>
+                        <td class="reason">점검은 정기적이나 결함 개선 미흡</td>
+                    </tr>
+                    <tr>
+                        <td class="item-num">17</td>
+                        <td class="item-name">2.3.3 비상대피 및 비상연락체계</td>
+                        <td class="score-col">2점</td>
+                        <td><span class="status-chip available" data-materials="• 2025년11월 소방탈출비상 훈련기록.pdf&#10;• 2026년훈련计划书.xlsx&#10;• 2026비상 대응계획 - 33쪽、화재사고특정비상 대응계획.pdf&#10;• UPS화재비상 훈련기록.pdf">✓ 확보<span class="tooltip"></span></span></td>
+                        <td class="eval-col">2/2</td>
+                        <td class="reason">적절하게 운영됨</td>
+                    </tr>
+                    <tr>
+                        <td class="item-num">18</td>
+                        <td class="item-name">3.1.1 안전작업 절차 수립 및 준수</td>
+                        <td class="score-col">4점</td>
+                        <td><span class="status-chip unavailable">✗ 미확보<span class="tooltip"></span></span></td>
+                        <td class="eval-col">-</td>
+                        <td class="reason">자료 없음</td>
+                    </tr>
+                    <tr>
+                        <td class="item-num">19</td>
+                        <td class="item-name">3.1.2 안전설비 점검 현황</td>
+                        <td class="score-col">4점</td>
+                        <td><span class="status-chip available" data-materials="• 안전光栅점검표.pdf&#10;• 안전설비(시설)대장.xlsx">✓ 확보<span class="tooltip"></span></span></td>
+                        <td class="eval-col">3/4</td>
+                        <td class="reason">점검은 하나 결함 재확인 부족</td>
+                    </tr>
+                    <tr>
+                        <td class="item-num">20</td>
+                        <td class="item-name">3.1.3 삼성 안전 기준 적용</td>
+                        <td class="score-col">4점</td>
+                        <td><span class="status-chip available" data-materials="• 三星安全生产作业절차.pdf">✓ 확보<span class="tooltip"></span></span></td>
+                        <td class="eval-col">4/4</td>
+                        <td class="reason">기준이 적절하게 적용됨</td>
+                    </tr>
+                    <tr>
+                        <td class="item-num">21</td>
+                        <td class="item-name">3.2.1 기계·설비·운반기 유지보수 계획</td>
+                        <td class="score-col">4점</td>
+                        <td><span class="status-chip available" data-materials="• 202601크레인유지보수 요약보고.pdf&#10;• 202604크레인유지보수 요약보고.pdf&#10;• 202607크레인유지보수 요약보고.pdf&#10;• 25톤행거정기검사보고.pdf&#10;• 三星안전생산작업절차 - 42쪽，지게차작업절차.pdf&#10;• 林德지게차정기검사보고(BA지게차).pdf&#10;• 林德지게차정기검사보고(PK지게차).pdf&#10;• 林德지게차정기검사보고(营业지게차).pdf&#10;• 크레인 관련 10개 파일 외">✓ 확보<span class="tooltip"></span></span></td>
+                        <td class="eval-col">4/4</td>
+                        <td class="reason">정기적이고 체계적인 유지보수</td>
+                    </tr>
+                    <tr>
+                        <td class="item-num">22</td>
+                        <td class="item-name">3.2.2 물질안전정보(MSDS) 구비 및 관리</td>
+                        <td class="score-col">4점</td>
+                        <td><span class="status-chip unavailable">✗ 미확보<span class="tooltip"></span></span></td>
+                        <td class="eval-col">-</td>
+                        <td class="reason">자료 없음</td>
+                    </tr>
+                    <tr>
+                        <td class="item-num">23</td>
+                        <td class="item-name">3.2.3 개인보호장비 선정 및 사용 현황</td>
+                        <td class="score-col">4점</td>
+                        <td><span class="status-chip unavailable">✗ 미확보<span class="tooltip"></span></span></td>
+                        <td class="eval-col">-</td>
+                        <td class="reason">자료 없음</td>
+                    </tr>
+                    <tr>
+                        <td class="item-num">24</td>
+                        <td class="item-name">3.3.1 생산구역 평면도 및 안전표지</td>
+                        <td class="score-col">4점</td>
+                        <td><span class="status-chip available" data-materials="• SSPH-生产区域平面그림.JPG">✓ 확보<span class="tooltip"></span></span></td>
+                        <td class="eval-col">4/4</td>
+                        <td class="reason">명확하게 표시됨</td>
+                    </tr>
+                    <tr>
+                        <td class="item-num">25</td>
+                        <td class="item-name">3.3.2 환경오염 배출 관리 및 모니터링</td>
+                        <td class="score-col">4점</td>
+                        <td><span class="status-chip available" data-materials="• 26년6월배기검사보고.pdf&#10;• 26년6월폐수검사보고.pdf&#10;• 每月环境局网站上传数据.png&#10;• 公众号流程図.xlsx&#10;• 모니터링点位그림.PNG&#10;• 배출허가증서自行모니터링计划.pdf&#10;• 배출허가증서자체모니터링계획.pdf&#10;• 배출허가증서表.pdf&#10;• 폐수工业.jpg">✓ 확보<span class="tooltip"></span></span></td>
+                        <td class="eval-col">3/4</td>
+                        <td class="reason">모니터링은 하나 개선 결과 없음</td>
+                    </tr>
+                    <tr>
+                        <td class="item-num">26</td>
+                        <td class="item-name">3.3.3 환경영향평가 및 개선계획</td>
+                        <td class="score-col">4점</td>
+                        <td><span class="status-chip unavailable">✗ 미확보<span class="tooltip"></span></span></td>
+                        <td class="eval-col">-</td>
+                        <td class="reason">자료 없음</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="footer">
+            <h3>평가 결과 요약</h3>
+            <div class="footer-text"><strong>• 총 평가점수:</strong> 35/100점 (35%)</div>
+            <div class="footer-text"><strong>• 자료 확보율:</strong> 15/25개 항목 (60%)</div>
+            <div class="footer-text"><strong>• 만점 항목:</strong> 4개 (1.3.2, 3.1.3, 3.3.1, 3.2.1)</div>
+            <div class="grade-box">종합 등급: 미흡 (D)</div>
+
+            <div class="improvement-section">
+                <div class="improvement-title">주요 개선 사항</div>
+                <div class="footer-text">1. <strong>안전교육 효과성 평가</strong> - 교육 실적은 있으나 효과성을 측정할 수 있는 자료 보완 필요</div>
+                <div class="footer-text">2. <strong>위험작업 관리 강화</strong> - 높은 곳 작업, 밀폐공간 등 제도는 있으나 실제 적용 및 점검 강화</div>
+                <div class="footer-text">3. <strong>사고 대응 체계 실행</strong> - 사고 발생시 대응 매뉴얼은 있으나 실행 증거 및 개선 이력 확보</div>
+                <div class="footer-text">4. <strong>소방안전 개선 결과</strong> - 훈련 이력은 있으나 지적사항에 대한 개선 결과 및 사후관리 강화</div>
+                <div class="footer-text">5. <strong>환경 모니터링 연계</strong> - 배출 모니터링은 정기적이나 개선계획 수립 및 실행 필요</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const chips = document.querySelectorAll('.status-chip');
+        let pinnedChip = null;
+
+        chips.forEach(chip => {
+            chip.addEventListener('mouseenter', () => {
+                const tooltip = chip.querySelector('.tooltip');
+                const materials = chip.getAttribute('data-materials');
+                if (materials && !tooltip.classList.contains('pinned')) {
+                    // 줄바꿈 처리
+                    const items = materials.split('\n').filter(item => item.trim());
+                    tooltip.innerHTML = items.map(item => `<div class="tooltip-item">${item.trim()}</div>`).join('');
+                    tooltip.classList.add('show');
+                }
+            });
+
+            chip.addEventListener('mouseleave', () => {
+                const tooltip = chip.querySelector('.tooltip');
+                if (!tooltip.classList.contains('pinned')) {
+                    tooltip.classList.remove('show');
+                }
+            });
+
+            chip.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const tooltip = chip.querySelector('.tooltip');
+                const materials = chip.getAttribute('data-materials');
+
+                if (!tooltip.classList.contains('pinned')) {
+                    // 다른 pinned 칩 해제
+                    if (pinnedChip && pinnedChip !== chip) {
+                        pinnedChip.querySelector('.tooltip').classList.remove('pinned');
+                    }
+
+                    // 현재 칩 고정
+                    pinnedChip = chip;
+                    const items = materials.split('\n').filter(item => item.trim());
+                    tooltip.innerHTML = items.map(item => `<div class="tooltip-item">${item.trim()}</div>`).join('');
+                    tooltip.classList.add('pinned');
+                    tooltip.classList.add('show');
+                } else {
+                    tooltip.classList.remove('pinned');
+                    tooltip.classList.remove('show');
+                    pinnedChip = null;
+                }
+            });
+        });
+
+        // 다른 곳을 클릭하면 pinned 해제
+        document.addEventListener('click', () => {
+            if (pinnedChip) {
+                pinnedChip.querySelector('.tooltip').classList.remove('pinned');
+                pinnedChip.querySelector('.tooltip').classList.remove('show');
+                pinnedChip = null;
+            }
+        });
+    </script>
+</body>
+</html>
