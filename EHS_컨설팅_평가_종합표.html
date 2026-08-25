@@ -382,12 +382,11 @@
             tooltip.style.visibility = 'visible';
         }
 
-        function unpin() {
-            if (pinnedEl) {
-                const tooltip = tooltipMap.get(pinnedEl);
-                if (tooltip) tooltip.classList.remove('pinned', 'show');
-                pinnedEl = null;
-            }
+        function closeAllTooltips() {
+            tooltipMap.forEach(entry => {
+                entry.tooltip.classList.remove('pinned', 'show');
+            });
+            pinnedEl = null;
         }
 
         function setupTooltip(el, dataAttr, renderFn, tooltipClass) {
@@ -429,10 +428,9 @@
                 const data = trigger.getAttribute(entry.dataAttr);
                 if (!data) return;
 
-                if (entry.tooltip.classList.contains('pinned') && pinnedEl === trigger) {
-                    unpin();
-                } else {
-                    unpin();
+                const alreadyPinned = entry.tooltip.classList.contains('pinned') && pinnedEl === trigger;
+                closeAllTooltips();
+                if (!alreadyPinned) {
                     pinnedEl = trigger;
                     entry.tooltip.innerHTML = entry.renderFn(data);
                     entry.tooltip.classList.add('pinned', 'show');
@@ -441,11 +439,9 @@
                 return;
             }
 
-            const insideTooltip = e.target.closest('.tooltip, .evidence-tooltip');
-            if (insideTooltip) return; // 말풍선 내부 클릭(텍스트 선택 등)은 유지
-
-            // 그 외 영역 클릭 시 닫기
-            unpin();
+            // 말풍선 내부 클릭(텍스트 선택·복사)은 유지, 그 외 영역 클릭 시 닫기
+            if (e.target.closest('.tooltip, .evidence-tooltip')) return;
+            closeAllTooltips();
         });
 
         // 스크롤/리사이즈 시 위치가 어긋나지 않도록 고정된 말풍선 재배치
