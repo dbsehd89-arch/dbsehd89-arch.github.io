@@ -401,21 +401,7 @@
             tooltip.className = tooltipClass;
             document.body.appendChild(tooltip);
             tooltipMap.set(el, { tooltip, dataAttr, renderFn });
-
-            el.addEventListener('mouseenter', () => {
-                const data = el.getAttribute(dataAttr);
-                if (data && !tooltip.classList.contains('pinned')) {
-                    tooltip.innerHTML = renderFn(data);
-                    tooltip.classList.add('show');
-                    positionTooltip(el, tooltip);
-                }
-            });
-
-            el.addEventListener('mouseleave', () => {
-                if (!tooltip.classList.contains('pinned')) {
-                    tooltip.classList.remove('show');
-                }
-            });
+            // 호버로는 열리지 않음 - 클릭/탭으로만 열고 닫음 (아래 delegated click 핸들러가 처리)
         }
 
         document.querySelectorAll('.status-chip').forEach(chip => {
