@@ -36,9 +36,12 @@
         .evidence-tooltip { position: fixed; background: #222; color: #f1f1f1; padding: 14px 16px; border-radius: 6px; font-size: 12px; z-index: 2000; box-shadow: 0 4px 12px rgba(0,0,0,0.35); display: none; width: 380px; max-width: calc(100vw - 24px); white-space: normal; word-break: break-word; line-height: 1.7; max-height: 360px; overflow-y: auto; }
         .evidence-tooltip.show { display: block; }
         .evidence-tooltip.pinned { display: block !important; }
-        .evidence-source { color: #7fc8ff; font-weight: 600; margin-top: 8px; margin-bottom: 2px; }
+        .evidence-source { color: #7fc8ff; font-weight: 600; margin-top: 8px; margin-bottom: 2px; padding-right: 24px; }
         .evidence-source:first-child { margin-top: 0; }
         .evidence-text { margin: 0 0 6px; }
+        .tooltip-close { position: absolute; top: 6px; right: 8px; width: 24px; height: 24px; border-radius: 50%; background: rgba(255,255,255,0.15); color: #fff; border: none; font-size: 15px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 1; }
+        .tooltip-close:hover { background: rgba(255,255,255,0.3); }
+        .tooltip-body { padding-right: 22px; }
         .tooltip { position: fixed; background: #333; color: white; padding: 14px 16px; border-radius: 6px; font-size: 12px; z-index: 2000; box-shadow: 0 4px 12px rgba(0,0,0,0.35); display: none; width: 320px; max-width: calc(100vw - 24px); white-space: normal; word-break: break-word; line-height: 1.8; max-height: 400px; overflow-y: auto; }
         .tooltip.show { display: block; }
         .tooltip.pinned { display: block !important; }
@@ -336,20 +339,24 @@
         let pinnedEl = null;
         const tooltipMap = new Map();
 
+        const CLOSE_BTN = '<button type="button" class="tooltip-close" aria-label="닫기">✕</button>';
+
         function renderMaterials(materials) {
             const items = materials.split('\n').filter(item => item.trim());
-            return items.map(item => `<div class="tooltip-item">${item.trim()}</div>`).join('');
+            const body = items.map(item => `<div class="tooltip-item">${item.trim()}</div>`).join('');
+            return CLOSE_BTN + `<div class="tooltip-body">${body}</div>`;
         }
 
         function renderEvidence(evidence) {
             const items = evidence.split('\n').filter(item => item.trim());
-            return items.map(item => {
+            const body = items.map(item => {
                 const t = item.trim();
                 if (t.startsWith('[출처:')) {
                     return `<div class="evidence-source">${t}</div>`;
                 }
                 return `<div class="evidence-text">${t}</div>`;
             }).join('');
+            return CLOSE_BTN + `<div class="tooltip-body">${body}</div>`;
         }
 
         function positionTooltip(el, tooltip) {
@@ -419,8 +426,13 @@
             setupTooltip(trigger, 'data-evidence', renderEvidence, 'evidence-tooltip');
         });
 
-        // 클릭 이벤트를 한 곳에서 처리: 트리거 클릭 = 고정 토글, 그 외 = 닫기
+        // 클릭 이벤트를 한 곳에서 처리: 트리거 클릭 = 고정 토글, 닫기 버튼 = 무조건 닫기, 그 외 = 닫기
         document.addEventListener('click', (e) => {
+            if (e.target.closest('.tooltip-close')) {
+                closeAllTooltips();
+                return;
+            }
+
             const trigger = e.target.closest('.status-chip, .evidence-trigger');
 
             if (trigger && tooltipMap.has(trigger)) {
