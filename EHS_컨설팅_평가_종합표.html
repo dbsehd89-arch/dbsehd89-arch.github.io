@@ -392,6 +392,7 @@
         function closeAllTooltips() {
             tooltipMap.forEach(entry => {
                 entry.tooltip.classList.remove('pinned', 'show');
+                entry.tooltip.style.display = 'none';
             });
             pinnedEl = null;
         }
